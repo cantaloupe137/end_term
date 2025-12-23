@@ -11,22 +11,21 @@ namespace gravity
 
         // 控制面板元件
         private Panel controlPanel;
-        private TrackBar gravityStrengthTrackBar;
+        private CustomTrackBar gravityStrengthTrackBar;
         private Label gravityStrengthLabel;
-        private TrackBar maxVelocityTrackBar;
+        private CustomTrackBar maxVelocityTrackBar;
         private Label maxVelocityLabel;
-        private TrackBar particleSizeTrackBar;
+        private CustomTrackBar particleSizeTrackBar;
         private Label particleSizeLabel;
-        private TrackBar timeScaleTrackBar;
+        private CustomTrackBar timeScaleTrackBar;
         private Label timeScaleLabel;
-        private TrackBar repulsionStrengthTrackBar;
+        private CustomTrackBar repulsionStrengthTrackBar;
         private Label repulsionStrengthLabel;
         private Button pauseButton;
         private Button clearButton;
         private Label statsLabel;
         private CheckBox repulsionCheckBox;
         private CheckBox gravityFieldCheckBox;
-        private Label helpLabel;
 
         private bool isPaused = false;
         private int currentParticleSize = DEFAULT_SIZE;
@@ -55,13 +54,15 @@ namespace gravity
         {
             controlPanel = new Panel
             {
-                BackColor = Color.FromArgb(200, 30, 30, 30),
+                BackColor = Color.FromArgb(1, 0, 0, 0), // 幾乎透明的黑色 (alpha=1)
                 Width = 280,
-                Height = 600,
+                Height = 580,
                 Location = new Point(10, 10),
                 Padding = new Padding(10),
-                AutoScroll = true
+                AutoScroll = false,
+                BorderStyle = BorderStyle.None
             };
+            
             this.Controls.Add(controlPanel);
 
             int yPosition = 10;
@@ -70,7 +71,7 @@ namespace gravity
             int labelToControlSpacing = 5;
             int sectionSpacing = 15;
 
-            // === 重力強度 ===
+            // 重力的強度
             gravityStrengthLabel = new Label
             {
                 Text = "重力強度: 30.0",
@@ -83,7 +84,7 @@ namespace gravity
             controlPanel.Controls.Add(gravityStrengthLabel);
             yPosition += labelHeight + labelToControlSpacing;
 
-            gravityStrengthTrackBar = new TrackBar
+            gravityStrengthTrackBar = new CustomTrackBar
             {
                 Minimum = 0,
                 Maximum = 100,
@@ -96,7 +97,7 @@ namespace gravity
             controlPanel.Controls.Add(gravityStrengthTrackBar);
             yPosition += trackBarHeight + sectionSpacing;
 
-            // === 最大速度 ===
+            // 球的最大速度
             maxVelocityLabel = new Label
             {
                 Text = "最大速度: 100.0",
@@ -109,7 +110,7 @@ namespace gravity
             controlPanel.Controls.Add(maxVelocityLabel);
             yPosition += labelHeight + labelToControlSpacing;
 
-            maxVelocityTrackBar = new TrackBar
+            maxVelocityTrackBar = new CustomTrackBar
             {
                 Minimum = 10,
                 Maximum = 300,
@@ -122,7 +123,7 @@ namespace gravity
             controlPanel.Controls.Add(maxVelocityTrackBar);
             yPosition += trackBarHeight + sectionSpacing;
 
-            // === 粒子大小 ===
+            // 粒子的大小
             particleSizeLabel = new Label
             {
                 Text = "粒子大小: 35",
@@ -135,7 +136,7 @@ namespace gravity
             controlPanel.Controls.Add(particleSizeLabel);
             yPosition += labelHeight + labelToControlSpacing;
 
-            particleSizeTrackBar = new TrackBar
+            particleSizeTrackBar = new CustomTrackBar
             {
                 Minimum = 10,
                 Maximum = 100,
@@ -148,7 +149,7 @@ namespace gravity
             controlPanel.Controls.Add(particleSizeTrackBar);
             yPosition += trackBarHeight + sectionSpacing;
 
-            // === 時間縮放 ===
+            // 加速或減速時間流逝
             timeScaleLabel = new Label
             {
                 Text = "時間縮放: 1.0x",
@@ -161,7 +162,7 @@ namespace gravity
             controlPanel.Controls.Add(timeScaleLabel);
             yPosition += labelHeight + labelToControlSpacing;
 
-            timeScaleTrackBar = new TrackBar
+            timeScaleTrackBar = new CustomTrackBar
             {
                 Minimum = 1,
                 Maximum = 50,
@@ -174,7 +175,7 @@ namespace gravity
             controlPanel.Controls.Add(timeScaleTrackBar);
             yPosition += trackBarHeight + sectionSpacing;
 
-            // === 排斥力強度 ===
+            // 斥力強度
             repulsionStrengthLabel = new Label
             {
                 Text = "排斥力強度: 50.0",
@@ -187,7 +188,7 @@ namespace gravity
             controlPanel.Controls.Add(repulsionStrengthLabel);
             yPosition += labelHeight + labelToControlSpacing;
 
-            repulsionStrengthTrackBar = new TrackBar
+            repulsionStrengthTrackBar = new CustomTrackBar
             {
                 Minimum = 0,
                 Maximum = 200,
@@ -200,7 +201,7 @@ namespace gravity
             controlPanel.Controls.Add(repulsionStrengthTrackBar);
             yPosition += trackBarHeight + sectionSpacing;
 
-            // === 排斥力開關 ===
+            // 是否啟用球間排斥力
             repulsionCheckBox = new CheckBox
             {
                 Text = "啟用球間排斥力",
@@ -213,7 +214,7 @@ namespace gravity
             controlPanel.Controls.Add(repulsionCheckBox);
             yPosition += 25 + sectionSpacing;
 
-            // === 重力場視覺化 ===
+            // 顯示重力場
             gravityFieldCheckBox = new CheckBox
             {
                 Text = "顯示重力場 (綠色箭頭)",
@@ -226,7 +227,7 @@ namespace gravity
             controlPanel.Controls.Add(gravityFieldCheckBox);
             yPosition += 25 + sectionSpacing;
 
-            // === 按鈕區域 ===
+            // 按鈕
             pauseButton = new Button
             {
                 Text = "暫停",
@@ -254,7 +255,7 @@ namespace gravity
             controlPanel.Controls.Add(clearButton);
             yPosition += 45;
 
-            // === 統計資訊 ===
+            // 資料統計
             statsLabel = new Label
             {
                 Text = "粒子: 0 | 重力源: 0",
@@ -267,24 +268,6 @@ namespace gravity
             };
             controlPanel.Controls.Add(statsLabel);
             yPosition += 35;
-
-            // === 操作說明 ===
-            helpLabel = new Label
-            {
-                Text = "操作說明:\n" +
-                       "左鍵: 創建粒子\n" +
-                       "右鍵: 創建重力源\n" +
-                       "空白鍵: 暫停/繼續\n" +
-                       "球之間會互相排斥\n" +
-                       "球離開螢幕會被移除",
-                ForeColor = Color.Yellow,
-                AutoSize = false,
-                Width = 260,
-                Height = 110,
-                Location = new Point(10, yPosition),
-                Font = new Font("Microsoft JhengHei", 8, FontStyle.Regular)
-            };
-            controlPanel.Controls.Add(helpLabel);
 
             controlPanel.BringToFront();
         }
