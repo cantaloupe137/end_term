@@ -10,7 +10,6 @@ namespace gravity
         private int minimum = 0;
         private int maximum = 100;
         private int value = 0;
-        private int tickFrequency = 10;
         private bool isDragging = false;
         
         public int Minimum
@@ -47,16 +46,6 @@ namespace gravity
                     ValueChanged?.Invoke(this, EventArgs.Empty);
                     Invalidate();
                 }
-            }
-        }
-
-        public int TickFrequency
-        {
-            get => tickFrequency;
-            set
-            {
-                tickFrequency = value;
-                Invalidate();
             }
         }
 

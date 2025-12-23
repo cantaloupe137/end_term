@@ -10,29 +10,8 @@ namespace gravity
         public double MaxVelocity { get; set; } = 100.0;
         public double TimeScale { get; set; } = 1.0;
         public bool EnableRepulsion { get; set; } = true;
-        public bool ShowGravityField { get; set; } = true; // 預設開啟重力場
+        public bool ShowGravityField { get; set; } = true;
         public double RepulsionStrength { get; set; } = 50.0;
-
-        private int frameCount = 0;
-        private double fpsTimer = 0;
-        private double currentFPS = 60;
-        private readonly Queue<double> fpsHistory = new Queue<double>(); // FPS歷史記錄
-        private const int FPS_UPDATE_INTERVAL = 10;
-        private const int FPS_HISTORY_SIZE = 5; // 保留5次FPS計算結果做平均
-        
-        public double CurrentFPS 
-        { 
-            get => currentFPS;
-            private set => currentFPS = value;
-        }
-
-        // 爆炸事件,供外部訂閱
-        public event EventHandler ExplosionOccurred;
-
-        public void AddBall(double x, double y, int size)
-        {
-            AddBallWithVelocity(x, y, size, 0, 0);
-        }
 
         public void AddBallWithVelocity(double x, double y, int size, double velocityX, double velocityY)
         {
@@ -58,23 +37,6 @@ namespace gravity
             blocks.Add(new Block(x, y, size));
         }
 
-        public void CreateExplosion(double x, double y, int particleCount, double force)
-        {
-            for (int i = 0; i < particleCount; i++)
-            {
-                double angle = random.NextDouble() * Math.PI * 2;
-                double speed = random.NextDouble() * force;
-                double vx = Math.Cos(angle) * speed;
-                double vy = Math.Sin(angle) * speed;
-
-                int size = random.Next(10, 30);
-                AddBallWithVelocity(x, y, size, vx, vy);
-            }
-            
-            // 觸發爆炸音效
-            ExplosionOccurred?.Invoke(this, EventArgs.Empty);
-        }
-
         public void Clear()
         {
             balls.Clear();
@@ -83,29 +45,6 @@ namespace gravity
 
         public void Update(int screenWidth, int screenHeight)
         {
-            double deltaTime = 0.016;
-
-            frameCount++;
-            fpsTimer += deltaTime;
-            
-            // 每10幀更新一次FPS
-            if (frameCount % FPS_UPDATE_INTERVAL == 0)
-            {
-                double instantFPS = FPS_UPDATE_INTERVAL / fpsTimer;
-                
-                // 加入FPS歷史記錄
-                fpsHistory.Enqueue(instantFPS);
-                if (fpsHistory.Count > FPS_HISTORY_SIZE)
-                {
-                    fpsHistory.Dequeue();
-                }
-                
-                // 計算移動平均FPS,使顯示更平滑
-                CurrentFPS = fpsHistory.Average();
-                
-                fpsTimer = 0;
-            }
-
             if (blocks.Count > 0)
             {
                 foreach (var ball in balls)
@@ -120,27 +59,31 @@ namespace gravity
                     ball.UpdatePosition(TimeScale);
                 }
 
-                // 移除離開螢幕的球
                 balls.RemoveAll(ball => ball.IsOutOfBounds(screenWidth, screenHeight));
             }
         }
 
         public void Draw(Graphics g)
         {
-
-            // 繪製重力場網格
+            // 第一層：重力場（最底層）
             if (ShowGravityField && blocks.Count > 0)
             {
                 DrawGravityField(g);
             }
 
-            // 繪製球
+            // 第二層：球的軌跡
             foreach (var ball in balls)
             {
-                ball.Draw(g);
+                ball.DrawTrail(g);
             }
 
-            // 繪製方塊
+            // 第三層：球本體
+            foreach (var ball in balls)
+            {
+                ball.DrawBall(g);
+            }
+
+            // 第四層：方塊（最上層）
             foreach (var block in blocks)
             {
                 block.Draw(g);
@@ -179,7 +122,6 @@ namespace gravity
                     
                     if (magnitude > 0.1)
                     {
-                        // 使用統一的鮮豔顏色,不會隨時間變淡
                         int alpha = Math.Min(255, (int)(magnitude * 40) + 150);
                         int colorIntensity = Math.Min(255, (int)(magnitude * 60) + 180);
                         Color arrowColor = Color.FromArgb(alpha, 0, colorIntensity, 80);
@@ -205,7 +147,6 @@ namespace gravity
                             g.DrawLine(fieldPen, tipX, tipY, leftX, leftY);
                             g.DrawLine(fieldPen, tipX, tipY, rightX, rightY);
                             
-                            // 填充箭頭三角形讓它更明顯
                             using (SolidBrush arrowBrush = new SolidBrush(arrowColor))
                             {
                                 PointF[] triangle = { 

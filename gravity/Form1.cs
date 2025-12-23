@@ -89,7 +89,6 @@ namespace gravity
                 Minimum = 0,
                 Maximum = 100,
                 Value = 30,
-                TickFrequency = 10,
                 Width = 260,
                 Location = new Point(10, yPosition)
             };
@@ -115,7 +114,6 @@ namespace gravity
                 Minimum = 10,
                 Maximum = 300,
                 Value = 100,
-                TickFrequency = 50,
                 Width = 260,
                 Location = new Point(10, yPosition)
             };
@@ -141,7 +139,6 @@ namespace gravity
                 Minimum = 10,
                 Maximum = 100,
                 Value = DEFAULT_SIZE,
-                TickFrequency = 10,
                 Width = 260,
                 Location = new Point(10, yPosition)
             };
@@ -167,7 +164,6 @@ namespace gravity
                 Minimum = 1,
                 Maximum = 50,
                 Value = 10,
-                TickFrequency = 5,
                 Width = 260,
                 Location = new Point(10, yPosition)
             };
@@ -193,7 +189,6 @@ namespace gravity
                 Minimum = 0,
                 Maximum = 200,
                 Value = 50,
-                TickFrequency = 20,
                 Width = 260,
                 Location = new Point(10, yPosition)
             };

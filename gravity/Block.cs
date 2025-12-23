@@ -5,7 +5,6 @@ namespace gravity
         public double X { get; set; }
         public double Y { get; set; }
         public int Size { get; set; }
-        public bool IsRepulsive { get; set; } = false;
 
         public Block(double x, double y, int size)
         {
@@ -16,9 +15,7 @@ namespace gravity
 
         public void Draw(Graphics g)
         {
-            Color blockColor = IsRepulsive ? Color.Red : Color.Blue;
-            
-            using (SolidBrush brush = new SolidBrush(blockColor))
+            using (SolidBrush brush = new SolidBrush(Color.Blue))
             {
                 g.FillRectangle(brush, (float)X, (float)Y, Size, Size);
             }
