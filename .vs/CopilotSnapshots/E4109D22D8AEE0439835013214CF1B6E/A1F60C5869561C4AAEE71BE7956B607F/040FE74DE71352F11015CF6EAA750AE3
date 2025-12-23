@@ -1,0 +1,82 @@
+﻿namespace gravity
+{
+    public class ParticleEmitter
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public int ParticleSize { get; set; }
+        public double EmissionRate { get; set; } // 每秒發射數量
+        public double SpeedMin { get; set; }
+        public double SpeedMax { get; set; }
+        public double AngleMin { get; set; } // 角度範圍 (弧度)
+        public double AngleMax { get; set; }
+        public bool IsActive { get; set; }
+
+        private double timeSinceLastEmission = 0;
+        private static readonly Random random = new Random();
+
+        public ParticleEmitter(double x, double y, int size, double rate)
+        {
+            X = x;
+            Y = y;
+            ParticleSize = size;
+            EmissionRate = rate;
+            SpeedMin = 2.0;
+            SpeedMax = 8.0;
+            AngleMin = 0;
+            AngleMax = Math.PI * 2;
+            IsActive = true;
+        }
+
+        public List<Ball> Update(double deltaTime)
+        {
+            List<Ball> newBalls = new List<Ball>();
+
+            if (!IsActive) return newBalls;
+
+            timeSinceLastEmission += deltaTime;
+            double interval = 1.0 / EmissionRate;
+
+            while (timeSinceLastEmission >= interval)
+            {
+                timeSinceLastEmission -= interval;
+
+                // 生成粒子
+                double angle = AngleMin + random.NextDouble() * (AngleMax - AngleMin);
+                double speed = SpeedMin + random.NextDouble() * (SpeedMax - SpeedMin);
+                double vx = Math.Cos(angle) * speed;
+                double vy = Math.Sin(angle) * speed;
+
+                Color randomColor = Color.FromArgb(
+                    random.Next(100, 256),
+                    random.Next(100, 256),
+                    random.Next(100, 256)
+                );
+
+                var ball = new Ball(X, Y, ParticleSize, randomColor)
+                {
+                    VelocityX = vx,
+                    VelocityY = vy
+                };
+
+                newBalls.Add(ball);
+            }
+
+            return newBalls;
+        }
+
+        public void Draw(Graphics g)
+        {
+            Color color = IsActive ? Color.Yellow : Color.Gray;
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(150, color)))
+            {
+                g.FillEllipse(brush, (float)X - 10, (float)Y - 10, 20, 20);
+            }
+
+            using (Pen pen = new Pen(color, 2))
+            {
+                g.DrawEllipse(pen, (float)X - 10, (float)Y - 10, 20, 20);
+            }
+        }
+    }
+}

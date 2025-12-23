@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\ball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\ball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 454,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [\u8A2D\u8A08]",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs",
+              "RelativeDocumentMoniker": "gravity\\Form1.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs [\u8A2D\u8A08]",
+              "RelativeToolTip": "gravity\\Form1.cs [\u8A2D\u8A08]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T13:14:09.386Z",
+              "EditorCaption": " [\u8A2D\u8A08]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs",
+              "RelativeDocumentMoniker": "gravity\\Form1.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs",
+              "RelativeToolTip": "gravity\\Form1.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAADwvykAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T13:14:13.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PhysicsEngine.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\PhysicsEngine.cs",
+              "RelativeDocumentMoniker": "gravity\\PhysicsEngine.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\PhysicsEngine.cs",
+              "RelativeToolTip": "gravity\\PhysicsEngine.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvwgAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T12:52:48.569Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 103,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Ball.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Ball.cs",
+              "RelativeDocumentMoniker": "gravity\\Ball.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Ball.cs",
+              "RelativeToolTip": "gravity\\Ball.cs",
+              "ViewState": "AgIAAAMBAAAAAAAAAABYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-23T07:09:53.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

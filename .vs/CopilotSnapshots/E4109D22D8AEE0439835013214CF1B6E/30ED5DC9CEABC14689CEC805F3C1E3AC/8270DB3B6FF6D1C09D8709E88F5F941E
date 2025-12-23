@@ -1,0 +1,276 @@
+﻿namespace gravity
+{
+    public class PhysicsEngine
+    {
+        private readonly List<Ball> balls = new List<Ball>();
+        private readonly List<Block> blocks = new List<Block>();
+        private static readonly Random random = new Random();
+        
+        public double GravityStrength { get; set; } = 30.0;
+        public double MaxVelocity { get; set; } = 100.0;
+        public double TimeScale { get; set; } = 1.0;
+        public bool EnableCollisions { get; set; } = true;
+        public bool ShowGravityField { get; set; } = false;
+
+        private int frameCount = 0;
+        private double fpsTimer = 0;
+        public double CurrentFPS { get; private set; } = 60;
+
+        // 爆炸事件,供外部訂閱
+        public event EventHandler ExplosionOccurred;
+
+        public void AddBall(double x, double y, int size)
+        {
+            AddBallWithVelocity(x, y, size, 0, 0);
+        }
+
+        public void AddBallWithVelocity(double x, double y, int size, double velocityX, double velocityY)
+        {
+            Color randomColor = GetRandomColor();
+            var ball = new Ball(x, y, size, randomColor)
+            {
+                VelocityX = velocityX,
+                VelocityY = velocityY
+            };
+            balls.Add(ball);
+        }
+
+        private static Color GetRandomColor()
+        {
+            int r = random.Next(100, 256);
+            int g = random.Next(100, 256);
+            int b = random.Next(100, 256);
+            return Color.FromArgb(r, g, b);
+        }
+
+        public void AddBlock(double x, double y, int size)
+        {
+            blocks.Add(new Block(x, y, size));
+        }
+
+        public void CreateExplosion(double x, double y, int particleCount, double force)
+        {
+            for (int i = 0; i < particleCount; i++)
+            {
+                double angle = random.NextDouble() * Math.PI * 2;
+                double speed = random.NextDouble() * force;
+                double vx = Math.Cos(angle) * speed;
+                double vy = Math.Sin(angle) * speed;
+
+                int size = random.Next(10, 30);
+                AddBallWithVelocity(x, y, size, vx, vy);
+            }
+            
+            // 觸發爆炸音效
+            ExplosionOccurred?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Clear()
+        {
+            balls.Clear();
+            blocks.Clear();
+        }
+
+        public void Update(int screenWidth, int screenHeight)
+        {
+            double deltaTime = 0.016;
+
+            // 更新 FPS
+            frameCount++;
+            fpsTimer += deltaTime;
+            if (fpsTimer >= 1.0)
+            {
+                CurrentFPS = frameCount / fpsTimer;
+                frameCount = 0;
+                fpsTimer = 0;
+            }
+
+            if (blocks.Count > 0)
+            {
+                foreach (var ball in balls)
+                {
+                    ball.ApplyGravity(blocks, GravityStrength * TimeScale, MaxVelocity);
+                    
+                    if (EnableCollisions)
+                    {
+                        foreach (var block in blocks)
+                        {
+                            ball.HandleBlockCollision(block);
+                        }
+                    }
+                    
+                    ball.UpdatePosition(TimeScale);
+                }
+
+                // 球與球碰撞檢測 - 只銷毀不產生粒子
+                if (EnableCollisions)
+                {
+                    List<int> ballsToRemove = new List<int>();
+
+                    for (int i = 0; i < balls.Count; i++)
+                    {
+                        if (ballsToRemove.Contains(i)) continue;
+
+                        for (int j = i + 1; j < balls.Count; j++)
+                        {
+                            if (ballsToRemove.Contains(j)) continue;
+
+                            bool shouldExplode = balls[i].HandleBallCollision(balls[j]);
+                            
+                            if (shouldExplode)
+                            {
+                                // 標記要移除的球
+                                ballsToRemove.Add(i);
+                                ballsToRemove.Add(j);
+                                
+                                // 觸發爆炸音效
+                                ExplosionOccurred?.Invoke(this, EventArgs.Empty);
+                                
+                                break;
+                            }
+                        }
+                    }
+
+                    // 移除碰撞的球
+                    ballsToRemove = ballsToRemove.Distinct().OrderByDescending(x => x).ToList();
+                    foreach (int index in ballsToRemove)
+                    {
+                        balls.RemoveAt(index);
+                    }
+                }
+
+                balls.RemoveAll(ball => ball.IsOutOfBounds(screenWidth, screenHeight));
+            }
+        }
+
+        public void Draw(Graphics g)
+        {
+            // 繪製重力場網格
+            if (ShowGravityField && blocks.Count > 0)
+            {
+                DrawGravityField(g);
+            }
+
+            // 繪製球
+            foreach (var ball in balls)
+            {
+                ball.Draw(g);
+            }
+
+            // 繪製方塊
+            foreach (var block in blocks)
+            {
+                block.Draw(g);
+            }
+        }
+
+        private void DrawGravityField(Graphics g)
+        {
+            int gridSize = 80; // 增大網格間距
+            
+            for (int x = gridSize; x < 1920; x += gridSize)
+            {
+                for (int y = gridSize; y < 1080; y += gridSize)
+                {
+                    double totalForceX = 0;
+                    double totalForceY = 0;
+
+                    foreach (var block in blocks)
+                    {
+                        double dx = (block.X + block.Size / 2.0) - x;
+                        double dy = (block.Y + block.Size / 2.0) - y;
+                        double distance = Math.Sqrt(dx * dx + dy * dy);
+
+                        if (distance > 1)
+                        {
+                            double force = GravityStrength / distance;
+                            totalForceX += (dx / distance) * force;
+                            totalForceY += (dy / distance) * force;
+                        }
+                    }
+
+                    double magnitude = Math.Sqrt(totalForceX * totalForceX + totalForceY * totalForceY);
+                    
+                    if (magnitude > 0.05) // 降低閾值,顯示更多箭頭
+                    {
+                        // 大幅增強顏色和透明度
+                        int alpha = Math.Min(255, (int)(magnitude * 30) + 80); // 基礎透明度80
+                        int colorIntensity = Math.Min(255, (int)(magnitude * 50) + 100); // 基礎強度100
+                        
+                        // 使用更鮮豔的綠色
+                        Color arrowColor = Color.FromArgb(alpha, 0, colorIntensity, 50);
+                        
+                        // 增大箭頭長度
+                        double arrowLength = Math.Min(gridSize * 0.9, magnitude * 8);
+                        double arrowX = totalForceX / magnitude * arrowLength;
+                        double arrowY = totalForceY / magnitude * arrowLength;
+
+                        using (Pen fieldPen = new Pen(arrowColor, 3)) // 增粗線條
+                        {
+                            // 繪製箭頭主線
+                            g.DrawLine(fieldPen, x, y, (float)(x + arrowX), (float)(y + arrowY));
+                            
+                            // 繪製更大的箭頭尖端
+                            double arrowHeadSize = 10; // 加大箭頭
+                            double angle = Math.Atan2(arrowY, arrowX);
+                            
+                            PointF arrowTip = new PointF((float)(x + arrowX), (float)(y + arrowY));
+                            PointF arrowLeft = new PointF(
+                                (float)(arrowTip.X - arrowHeadSize * Math.Cos(angle - Math.PI / 5)),
+                                (float)(arrowTip.Y - arrowHeadSize * Math.Sin(angle - Math.PI / 5))
+                            );
+                            PointF arrowRight = new PointF(
+                                (float)(arrowTip.X - arrowHeadSize * Math.Cos(angle + Math.PI / 5)),
+                                (float)(arrowTip.Y - arrowHeadSize * Math.Sin(angle + Math.PI / 5))
+                            );
+                            
+                            g.DrawLine(fieldPen, arrowTip, arrowLeft);
+                            g.DrawLine(fieldPen, arrowTip, arrowRight);
+                            
+                            // 填充箭頭尖端三角形
+                            using (SolidBrush arrowBrush = new SolidBrush(arrowColor))
+                            {
+                                PointF[] arrowTriangle = { arrowTip, arrowLeft, arrowRight };
+                                g.FillPolygon(arrowBrush, arrowTriangle);
+                            }
+                        }
+                        
+                        // 繪製更明顯的力場點
+                        using (SolidBrush dotBrush = new SolidBrush(Color.FromArgb(alpha, 100, colorIntensity, 100)))
+                        {
+                            g.FillEllipse(dotBrush, x - 4, y - 4, 8, 8);
+                        }
+                        
+                        // 繪製力場圓圈
+                        using (Pen circlePen = new Pen(Color.FromArgb(alpha / 2, 0, colorIntensity / 2, 30), 1))
+                        {
+                            float circleSize = (float)(magnitude * 2);
+                            g.DrawEllipse(circlePen, x - circleSize / 2, y - circleSize / 2, circleSize, circleSize);
+                        }
+                    }
+                }
+            }
+            
+            // 繪製重力源的影響範圍圓圈
+            foreach (var block in blocks)
+            {
+                float centerX = (float)(block.X + block.Size / 2.0);
+                float centerY = (float)(block.Y + block.Size / 2.0);
+                
+                // 繪製多層同心圓顯示重力強度
+                for (int i = 1; i <= 5; i++)
+                {
+                    float radius = i * 100;
+                    int alpha = 150 / i; // 越遠越淡
+                    using (Pen rangePen = new Pen(Color.FromArgb(alpha, 0, 255, 100), 2))
+                    {
+                        g.DrawEllipse(rangePen, centerX - radius, centerY - radius, radius * 2, radius * 2);
+                    }
+                }
+            }
+        }
+
+        public int BallCount => balls.Count;
+        public int BlockCount => blocks.Count;
+    }
+}

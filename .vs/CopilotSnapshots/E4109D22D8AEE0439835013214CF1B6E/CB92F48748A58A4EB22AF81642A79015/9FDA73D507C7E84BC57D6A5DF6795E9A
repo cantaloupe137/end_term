@@ -1,0 +1,54 @@
+﻿namespace gravity
+{
+    public class Block
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public int Size { get; set; }
+        public bool IsRepulsive { get; set; } = false; // 是否為斥力源
+        public DateTime CreatedTime { get; private set; } // 記錄創建時間
+        public bool IsNew => (DateTime.Now - CreatedTime).TotalSeconds < 3.0; // 前3秒算新的
+
+        public Block(double x, double y, int size)
+        {
+            X = x;
+            Y = y;
+            Size = size;
+            CreatedTime = DateTime.Now;
+        }
+
+        public void Draw(Graphics g)
+        {
+            Color blockColor = IsRepulsive ? Color.Red : Color.Blue;
+            
+            // 新創建的重力源會發光
+            if (IsNew)
+            {
+                // 繪製光暈效果
+                for (int i = 3; i >= 1; i--)
+                {
+                    int alpha = 40 / i;
+                    using (SolidBrush glowBrush = new SolidBrush(Color.FromArgb(alpha, blockColor)))
+                    {
+                        float glowSize = Size + i * 8;
+                        g.FillEllipse(glowBrush, 
+                            (float)(X - i * 4), 
+                            (float)(Y - i * 4), 
+                            glowSize, glowSize);
+                    }
+                }
+            }
+            
+            using (SolidBrush brush = new SolidBrush(blockColor))
+            {
+                g.FillRectangle(brush, (float)X, (float)Y, Size, Size);
+            }
+
+            // 繪製邊框
+            using (Pen pen = new Pen(Color.White, 2))
+            {
+                g.DrawRectangle(pen, (float)X, (float)Y, Size, Size);
+            }
+        }
+    }
+}

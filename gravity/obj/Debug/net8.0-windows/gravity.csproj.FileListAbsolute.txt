@@ -1,0 +1,17 @@
+C:\Users\user\Desktop\專案\gravity\gravity\bin\Debug\net8.0-windows\gravity.exe
+C:\Users\user\Desktop\專案\gravity\gravity\bin\Debug\net8.0-windows\gravity.deps.json
+C:\Users\user\Desktop\專案\gravity\gravity\bin\Debug\net8.0-windows\gravity.runtimeconfig.json
+C:\Users\user\Desktop\專案\gravity\gravity\bin\Debug\net8.0-windows\gravity.dll
+C:\Users\user\Desktop\專案\gravity\gravity\bin\Debug\net8.0-windows\gravity.pdb
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.Form1.resources
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.csproj.GenerateResource.cache
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.AssemblyInfo.cs
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.sourcelink.json
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.dll
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\refint\gravity.dll
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.pdb
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\gravity.genruntimeconfig.cache
+C:\Users\user\Desktop\專案\gravity\gravity\obj\Debug\net8.0-windows\ref\gravity.dll

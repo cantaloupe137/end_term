@@ -1,0 +1,221 @@
+﻿namespace gravity
+{
+    public class PhysicsEngine
+    {
+        private readonly List<Ball> balls = new List<Ball>();
+        private readonly List<Block> blocks = new List<Block>();
+        private readonly List<ParticleEmitter> emitters = new List<ParticleEmitter>();
+        private static readonly Random random = new Random();
+        
+        public double GravityStrength { get; set; } = 30.0;
+        public double MaxVelocity { get; set; } = 100.0;
+        public double TimeScale { get; set; } = 1.0;
+        public bool EnableCollisions { get; set; } = true;
+        public bool ShowGravityField { get; set; } = false;
+
+        private int frameCount = 0;
+        private double fpsTimer = 0;
+        public double CurrentFPS { get; private set; } = 60;
+
+        public void AddBall(double x, double y, int size)
+        {
+            AddBallWithVelocity(x, y, size, 0, 0);
+        }
+
+        public void AddBallWithVelocity(double x, double y, int size, double velocityX, double velocityY)
+        {
+            Color randomColor = GetRandomColor();
+            var ball = new Ball(x, y, size, randomColor)
+            {
+                VelocityX = velocityX,
+                VelocityY = velocityY
+            };
+            balls.Add(ball);
+        }
+
+        public void AddBallWithVelocityAndOffset(double x, double y, int size, double velocityX, double velocityY, double offsetRange)
+        {
+            double offsetX = (random.NextDouble() * 2 - 1) * offsetRange;
+            double offsetY = (random.NextDouble() * 2 - 1) * offsetRange;
+
+            Color randomColor = GetRandomColor();
+            var ball = new Ball(x + offsetX, y + offsetY, size, randomColor)
+            {
+                VelocityX = velocityX,
+                VelocityY = velocityY
+            };
+            balls.Add(ball);
+        }
+
+        public void AddBallWithOffset(double x, double y, int size, double offsetRange)
+        {
+            AddBallWithVelocityAndOffset(x, y, size, 0, 0, offsetRange);
+        }
+
+        private static Color GetRandomColor()
+        {
+            int r = random.Next(100, 256);
+            int g = random.Next(100, 256);
+            int b = random.Next(100, 256);
+            return Color.FromArgb(r, g, b);
+        }
+
+        public void AddBlock(double x, double y, int size)
+        {
+            blocks.Add(new Block(x, y, size));
+        }
+
+        public void AddEmitter(double x, double y, int size, double rate)
+        {
+            emitters.Add(new ParticleEmitter(x, y, size, rate));
+        }
+
+        public void CreateExplosion(double x, double y, int particleCount, double force)
+        {
+            for (int i = 0; i < particleCount; i++)
+            {
+                double angle = random.NextDouble() * Math.PI * 2;
+                double speed = random.NextDouble() * force;
+                double vx = Math.Cos(angle) * speed;
+                double vy = Math.Sin(angle) * speed;
+
+                int size = random.Next(10, 30);
+                AddBallWithVelocity(x, y, size, vx, vy);
+            }
+        }
+
+        public void Clear()
+        {
+            balls.Clear();
+            blocks.Clear();
+            emitters.Clear();
+        }
+
+        public void Update(int screenWidth, int screenHeight)
+        {
+            double deltaTime = 0.016; // 假設 60 FPS
+
+            // 更新 FPS
+            frameCount++;
+            fpsTimer += deltaTime;
+            if (fpsTimer >= 1.0)
+            {
+                CurrentFPS = frameCount / fpsTimer;
+                frameCount = 0;
+                fpsTimer = 0;
+            }
+
+            // 更新發射器
+            foreach (var emitter in emitters)
+            {
+                var newBalls = emitter.Update(deltaTime * TimeScale);
+                balls.AddRange(newBalls);
+            }
+
+            if (blocks.Count > 0)
+            {
+                foreach (var ball in balls)
+                {
+                    ball.ApplyGravity(blocks, GravityStrength * TimeScale, MaxVelocity);
+                    
+                    // 球與方塊碰撞
+                    if (EnableCollisions)
+                    {
+                        foreach (var block in blocks)
+                        {
+                            ball.HandleBlockCollision(block);
+                        }
+                    }
+                    
+                    ball.UpdatePosition(TimeScale);
+                }
+
+                // 球與球碰撞
+                if (EnableCollisions)
+                {
+                    for (int i = 0; i < balls.Count; i++)
+                    {
+                        for (int j = i + 1; j < balls.Count; j++)
+                        {
+                            balls[i].HandleBallCollision(balls[j]);
+                        }
+                    }
+                }
+
+                balls.RemoveAll(ball => ball.IsOutOfBounds(screenWidth, screenHeight));
+            }
+        }
+
+        public void Draw(Graphics g)
+        {
+            // 繪製重力場網格
+            if (ShowGravityField && blocks.Count > 0)
+            {
+                DrawGravityField(g);
+            }
+
+            // 繪製發射器
+            foreach (var emitter in emitters)
+            {
+                emitter.Draw(g);
+            }
+
+            // 繪製球
+            foreach (var ball in balls)
+            {
+                ball.Draw(g);
+            }
+
+            // 繪製方塊
+            foreach (var block in blocks)
+            {
+                block.Draw(g);
+            }
+        }
+
+        private void DrawGravityField(Graphics g)
+        {
+            int gridSize = 50;
+            using (Pen fieldPen = new Pen(Color.FromArgb(30, 0, 255, 0), 1))
+            {
+                for (int x = 0; x < 1920; x += gridSize)
+                {
+                    for (int y = 0; y < 1080; y += gridSize)
+                    {
+                        double totalForceX = 0;
+                        double totalForceY = 0;
+
+                        foreach (var block in blocks)
+                        {
+                            double dx = block.X - x;
+                            double dy = block.Y - y;
+                            double distance = Math.Sqrt(dx * dx + dy * dy);
+
+                            if (distance > 1)
+                            {
+                                double force = GravityStrength / distance;
+                                totalForceX += (dx / distance) * force;
+                                totalForceY += (dy / distance) * force;
+                            }
+                        }
+
+                        // 限制箭頭長度
+                        double magnitude = Math.Sqrt(totalForceX * totalForceX + totalForceY * totalForceY);
+                        if (magnitude > 0.1)
+                        {
+                            double scale = Math.Min(20, magnitude * 2);
+                            double arrowX = totalForceX / magnitude * scale;
+                            double arrowY = totalForceY / magnitude * scale;
+
+                            g.DrawLine(fieldPen, x, y, (float)(x + arrowX), (float)(y + arrowY));
+                        }
+                    }
+                }
+            }
+        }
+
+        public int BallCount => balls.Count;
+        public int BlockCount => blocks.Count;
+        public int EmitterCount => emitters.Count;
+    }
+}

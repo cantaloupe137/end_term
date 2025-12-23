@@ -1,0 +1,195 @@
+﻿namespace gravity
+{
+    public class Ball
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double VelocityX { get; set; }
+        public double VelocityY { get; set; }
+        public int Size { get; set; }
+        public double Mass { get; private set; } // 質量
+        public double Elasticity { get; set; } = 0.8; // 彈性係數 (0-1)
+        public Color BallColor { get; set; }
+        public List<PointF> Trail { get; private set; }
+        private const int MAX_TRAIL_LENGTH = 50;
+
+        public Ball(double x, double y, int size, Color color)
+        {
+            X = x;
+            Y = y;
+            Size = size;
+            BallColor = color;
+            VelocityX = 0;
+            VelocityY = 0;
+            Trail = new List<PointF>();
+            
+            // 質量與大小成正比 (半徑的平方)
+            Mass = (size / 2.0) * (size / 2.0) * Math.PI / 100.0;
+        }
+
+        public void ApplyGravity(List<Block> attractors, double gravityStrength, double maxVelocity)
+        {
+            if (attractors.Count == 0) return;
+
+            double totalForceX = 0;
+            double totalForceY = 0;
+
+            foreach (var block in attractors)
+            {
+                double dx = block.X - X;
+                double dy = block.Y - Y;
+                double distance = Math.Sqrt(dx * dx + dy * dy);
+
+                if (distance > 1)
+                {
+                    // 考慮質量的重力公式: F = G * m / r
+                    double force = gravityStrength * Mass / distance;
+                    totalForceX += (dx / distance) * force;
+                    totalForceY += (dy / distance) * force;
+                }
+            }
+
+            VelocityX += totalForceX;
+            VelocityY += totalForceY;
+
+            LimitVelocity(maxVelocity);
+        }
+
+        private void LimitVelocity(double maxVelocity)
+        {
+            double velocity = Math.Sqrt(VelocityX * VelocityX + VelocityY * VelocityY);
+            if (velocity > maxVelocity)
+            {
+                VelocityX = (VelocityX / velocity) * maxVelocity;
+                VelocityY = (VelocityY / velocity) * maxVelocity;
+            }
+        }
+
+        // 球與球碰撞檢測與處理
+        public void HandleBallCollision(Ball other)
+        {
+            double dx = other.X - X;
+            double dy = other.Y - Y;
+            double distance = Math.Sqrt(dx * dx + dy * dy);
+            double minDistance = (Size + other.Size) / 2.0;
+
+            if (distance < minDistance && distance > 0)
+            {
+                // 碰撞法線方向
+                double nx = dx / distance;
+                double ny = dy / distance;
+
+                // 相對速度
+                double dvx = VelocityX - other.VelocityX;
+                double dvy = VelocityY - other.VelocityY;
+                double dvn = dvx * nx + dvy * ny;
+
+                // 只在接近時處理
+                if (dvn > 0) return;
+
+                // 彈性碰撞公式 (考慮質量)
+                double elasticity = (Elasticity + other.Elasticity) / 2.0;
+                double impulse = (2.0 * dvn) / (Mass + other.Mass);
+
+                VelocityX -= impulse * other.Mass * nx * elasticity;
+                VelocityY -= impulse * other.Mass * ny * elasticity;
+                other.VelocityX += impulse * Mass * nx * elasticity;
+                other.VelocityY += impulse * Mass * ny * elasticity;
+
+                // 分離重疊的球
+                double overlap = minDistance - distance;
+                double separationRatio = overlap / 2.0;
+                X -= nx * separationRatio;
+                Y -= ny * separationRatio;
+                other.X += nx * separationRatio;
+                other.Y += ny * separationRatio;
+            }
+        }
+
+        // 球與方塊碰撞檢測
+        public void HandleBlockCollision(Block block)
+        {
+            double ballRadius = Size / 2.0;
+            double blockCenterX = block.X + block.Size / 2.0;
+            double blockCenterY = block.Y + block.Size / 2.0;
+            double ballCenterX = X + ballRadius;
+            double ballCenterY = Y + ballRadius;
+
+            double dx = ballCenterX - blockCenterX;
+            double dy = ballCenterY - blockCenterY;
+            double distance = Math.Sqrt(dx * dx + dy * dy);
+
+            double minDistance = ballRadius + (block.Size / 2.0);
+
+            if (distance < minDistance && distance > 0)
+            {
+                // 反彈
+                double nx = dx / distance;
+                double ny = dy / distance;
+
+                // 分離
+                double overlap = minDistance - distance;
+                X += nx * overlap;
+                Y += ny * overlap;
+
+                // 速度反轉 (考慮彈性)
+                double dotProduct = VelocityX * nx + VelocityY * ny;
+                VelocityX -= 2 * dotProduct * nx * Elasticity;
+                VelocityY -= 2 * dotProduct * ny * Elasticity;
+            }
+        }
+
+        public void UpdatePosition(double timeScale = 1.0)
+        {
+            double newX = X + VelocityX * timeScale;
+            double newY = Y + VelocityY * timeScale;
+
+            double movementDistance = Math.Sqrt(
+                Math.Pow(newX - X, 2) + 
+                Math.Pow(newY - Y, 2)
+            );
+
+            if (movementDistance > 0.5)
+            {
+                Trail.Add(new PointF((float)X, (float)Y));
+
+                if (Trail.Count > MAX_TRAIL_LENGTH)
+                {
+                    Trail.RemoveAt(0);
+                }
+            }
+
+            X = newX;
+            Y = newY;
+        }
+
+        public bool IsOutOfBounds(int width, int height)
+        {
+            return X < -Size * 2 ||
+                   X > width + Size ||
+                   Y < -Size * 2 ||
+                   Y > height + Size;
+        }
+
+        public void Draw(Graphics g)
+        {
+            if (Trail.Count > 1)
+            {
+                using (Pen trailPen = new Pen(Color.FromArgb(100, BallColor), 1))
+                {
+                    for (int i = 0; i < Trail.Count - 1; i++)
+                    {
+                        int alpha = (int)(100 * ((float)i / Trail.Count));
+                        trailPen.Color = Color.FromArgb(alpha, BallColor);
+                        g.DrawLine(trailPen, Trail[i], Trail[i + 1]);
+                    }
+                }
+            }
+
+            using (SolidBrush brush = new SolidBrush(BallColor))
+            {
+                g.FillEllipse(brush, (float)X, (float)Y, Size, Size);
+            }
+        }
+    }
+}
