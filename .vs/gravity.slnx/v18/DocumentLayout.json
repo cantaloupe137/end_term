@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\ball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\ball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,10 +23,6 @@
       "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\physicsengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|c:\\users\\user\\desktop\\\u5C08\u6848\\gravity\\gravity\\block.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{75DE5332-0E36-7C27-B49A-33A373B22CC1}|gravity\\gravity.csproj|solutionrelative:gravity\\block.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -33,8 +33,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 440,
-          "SelectedChildIndex": 2,
+          "DockedHeight": 517,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,25 +50,24 @@
               "RelativeToolTip": "gravity\\Block.cs",
               "ViewState": "AgIAABkAAAAAAAAAAABQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-23T08:51:06.64Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-23T08:51:06.64Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Ball.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Ball.cs",
               "RelativeDocumentMoniker": "gravity\\Ball.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Ball.cs",
               "RelativeToolTip": "gravity\\Ball.cs",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAswHwAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAzwHwAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-23T08:49:07.518Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CustomTrackBar.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\CustomTrackBar.cs",
               "RelativeDocumentMoniker": "gravity\\CustomTrackBar.cs",
@@ -76,24 +75,22 @@
               "RelativeToolTip": "gravity\\CustomTrackBar.cs",
               "ViewState": "AgIAAHcAAAAAAAAAAAAqwI8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-23T08:10:41.643Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-23T08:10:41.643Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Form1.cs [\u8A2D\u8A08]",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs",
               "RelativeDocumentMoniker": "gravity\\Form1.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs [\u8A2D\u8A08]",
               "RelativeToolTip": "gravity\\Form1.cs [\u8A2D\u8A08]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T13:14:09.386Z",
-              "EditorCaption": " [\u8A2D\u8A08]"
+              "WhenOpened": "2025-12-06T13:14:09.386Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs",
               "RelativeDocumentMoniker": "gravity\\Form1.cs",
@@ -101,18 +98,17 @@
               "RelativeToolTip": "gravity\\Form1.cs",
               "ViewState": "AgIAAFUBAAAAAAAAAAAuwG8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T13:14:13.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-06T13:14:13.47Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "PhysicsEngine.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\PhysicsEngine.cs",
               "RelativeDocumentMoniker": "gravity\\PhysicsEngine.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\PhysicsEngine.cs",
-              "RelativeToolTip": "gravity\\PhysicsEngine.cs",
-              "ViewState": "AgIAAKUAAAAAAAAAAIBbwKkAAAABAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\PhysicsEngine.cs*",
+              "RelativeToolTip": "gravity\\PhysicsEngine.cs*",
+              "ViewState": "AgIAAG0AAAAAAAAAAADwv48AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-02T12:52:48.569Z",
               "EditorCaption": ""
@@ -120,7 +116,7 @@
           ]
         },
         {
-          "DockedHeight": 117,
+          "DockedHeight": 40,
           "SelectedChildIndex": -1,
           "Children": [
             {

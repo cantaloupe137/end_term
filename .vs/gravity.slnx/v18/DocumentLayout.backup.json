@@ -50,8 +50,7 @@
               "RelativeToolTip": "gravity\\Block.cs",
               "ViewState": "AgIAABkAAAAAAAAAAABQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-23T08:51:06.64Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-23T08:51:06.64Z"
             },
             {
               "$type": "Document",
@@ -61,7 +60,7 @@
               "RelativeDocumentMoniker": "gravity\\Ball.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Ball.cs",
               "RelativeToolTip": "gravity\\Ball.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAuwJQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA0wHwAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-23T08:49:07.518Z",
               "EditorCaption": ""
@@ -76,8 +75,7 @@
               "RelativeToolTip": "gravity\\CustomTrackBar.cs",
               "ViewState": "AgIAAHcAAAAAAAAAAAAqwI8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-23T08:10:41.643Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-23T08:10:41.643Z"
             },
             {
               "$type": "Document",
@@ -88,8 +86,7 @@
               "ToolTip": "C:\\Users\\user\\Desktop\\\u5C08\u6848\\gravity\\gravity\\Form1.cs [\u8A2D\u8A08]",
               "RelativeToolTip": "gravity\\Form1.cs [\u8A2D\u8A08]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T13:14:09.386Z",
-              "EditorCaption": " [\u8A2D\u8A08]"
+              "WhenOpened": "2025-12-06T13:14:09.386Z"
             },
             {
               "$type": "Document",
@@ -101,8 +98,7 @@
               "RelativeToolTip": "gravity\\Form1.cs",
               "ViewState": "AgIAAFUBAAAAAAAAAAAuwG8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-06T13:14:13.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-06T13:14:13.47Z"
             },
             {
               "$type": "Document",
@@ -114,8 +110,7 @@
               "RelativeToolTip": "gravity\\PhysicsEngine.cs",
               "ViewState": "AgIAAKUAAAAAAAAAAIBbwKkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-02T12:52:48.569Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-02T12:52:48.569Z"
             }
           ]
         },
