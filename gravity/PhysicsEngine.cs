@@ -11,7 +11,7 @@ namespace gravity
         public double TimeScale { get; set; } = 1.0;
         public bool EnableRepulsion { get; set; } = true;
         public bool ShowGravityField { get; set; } = true;
-        public double RepulsionStrength { get; set; } = 50.0;
+        public double RepulsionStrength { get; set; } = 5.0;
 
         public void AddBallWithVelocity(double x, double y, int size, double velocityX, double velocityY)
         {

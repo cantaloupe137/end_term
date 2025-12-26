@@ -29,8 +29,8 @@ namespace gravity
         {
             if (attractors.Count == 0) return;
 
-            double totalForceX = 0;
-            double totalForceY = 0;
+            double totalAccelX = 0;
+            double totalAccelY = 0;
 
             foreach (var block in attractors)
             {
@@ -40,14 +40,14 @@ namespace gravity
 
                 if (distance > 1)
                 {
-                    double force = gravityStrength * Mass / distance;
-                    totalForceX += (dx / distance) * force;
-                    totalForceY += (dy / distance) * force;
+                    double Accel = gravityStrength * Mass / distance;
+                    totalAccelX += (dx / distance) * Accel;
+                    totalAccelY += (dy / distance) * Accel;
                 }
             }
 
-            VelocityX += totalForceX;
-            VelocityY += totalForceY;
+            VelocityX += totalAccelX;
+            VelocityY += totalAccelY;
 
             LimitVelocity(maxVelocity);
         }
@@ -71,15 +71,15 @@ namespace gravity
                 double dx = X - other.X;
                 double dy = Y - other.Y;
                 double distance = Math.Sqrt(dx * dx + dy * dy);
-
                 double repulsionRange = (Size + other.Size) * 1.5;
-                
+
                 if (distance > 1 && distance < repulsionRange)
                 {
-                    double force = repulsionStrength / (distance * distance);
-                    
-                    VelocityX += (dx / distance) * force;
-                    VelocityY += (dy / distance) * force;
+                    // 加速度與對方質量成正比，與距離平方成反比
+                    double acceleration = repulsionStrength * other.Mass / (distance * distance);
+
+                    VelocityX += (dx / distance) * acceleration;
+                    VelocityY += (dy / distance) * acceleration;
                 }
             }
         }

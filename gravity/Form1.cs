@@ -187,7 +187,7 @@ namespace gravity
             repulsionStrengthTrackBar = new CustomTrackBar
             {
                 Minimum = 0,
-                Maximum = 200,
+                Maximum = 20,
                 Value = 50,
                 Width = 260,
                 Location = new Point(10, yPosition)
